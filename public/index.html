@@ -61,8 +61,11 @@
         fetchYelpBtn.addEventListener('click', async () => {
           const response = await fetch('/.netlify/functions/yelp')
             .then(res => res.json())
-            //.then(data => console.log(data))
-            .then(data => JSON.stringify(data))
+            // .then(data => console.log(data))
+            .then(data => {
+              console.log(data)
+              return JSON.stringify(data)
+            })
           responseText.innerHTML = response
         })
         

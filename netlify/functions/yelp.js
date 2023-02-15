@@ -19,14 +19,14 @@ export const handler = async () => {
 
     const response = await fetch(url, options);
 
-    //console.log('response', response)
+    // console.log('rspnse', await response.json())
 
     const data = await response.json()
-    console.log(data)
+    // console.log(data)
 
     return {
         statusCode: 200, 
-        body: JSON.stringify( data.businesses[0] ) //function response must be a string per netlify
+        body: JSON.stringify(data.businesses[0].alias) //function response must be a string per netlify
     }
 }
 
