@@ -1,11 +1,15 @@
 import fetch from 'node-fetch'
 
-export const handler = async () => {
+export const handler = async (event, context) => {
 
     console.log('yelp handler ran')
 
-    const location = 95008
-    const category = 'restaurants'
+    console.log({ event })
+    const eventBody = JSON.parse(event.body)
+
+    const location = eventBody.zipCode
+    const category = eventBody.category
+
 
     const url = `https://api.yelp.com/v3/businesses/search?location=${location}&term=${category}&radius=2000&sort_by=best_match&limit=5`
 
@@ -21,12 +25,16 @@ export const handler = async () => {
 
     // console.log('rspnse', await response.json())
 
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
     const data = await response.json()
     // console.log(data)
 
     return {
         statusCode: 200, 
-        body: JSON.stringify(data.businesses[0].alias) //function response must be a string per netlify
+        body: JSON.stringify(data.businesses[0].id) //function response must be a string per netlify
     }
 }
 
